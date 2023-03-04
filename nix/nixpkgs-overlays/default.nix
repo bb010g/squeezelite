@@ -3,15 +3,16 @@
 squeezelite:
 pkgsFinal: pkgsPrev: let
   gitignore = squeezelite.inputs.gitignore.overlay pkgsFinal pkgsPrev;
-  squeezeliteSrc = gitignore.gitignoreSource ../..;
 in {
+  alac = pkgsFinal.callPackage ../nixpkgs-pkgs/alac { };
+
   squeezelite = pkgsFinal.callPackage ../nixpkgs-pkgs/squeezelite {
-    audioBackend = "alsa";
-    src = squeezeliteSrc;
+    withOutputAlsa = true;
+    src = gitignore.gitignoreSource ../..;
   };
 
-  squeezelite-pulse = pkgsFinal.callPackage ../nixpkgs-pkgs/squeezelite {
-    audioBackend = "pulse";
-    src = squeezeliteSrc;
-  };
+  squeezelite-pulse = pkgsFinal.squeezelite.override (argsPrev: {
+    withOutputAlsa = false;
+    withOutputPulseaudio = true;
+  });
 }

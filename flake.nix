@@ -33,15 +33,15 @@
     devShells = eachDefaultSystemMap (hostSystem: let
       nixpkgs = inputs.nixpkgs.legacyPackages.${hostSystem};
     in {
-      default = nixpkgs.callPackage ({ mkShell
+      default = nixpkgs.callPackage ({ lib, mkShell
       , reuse, squeezelite, squeezelite-pulse
       }: mkShell {
         inputsFrom = [
           squeezelite
-          squeezelite-pulse
+          # squeezelite-pulse
         ];
         nativeBuildInputs = [
-          reuse
+          (lib.getBin reuse)
         ];
       }) {
       };
@@ -67,6 +67,7 @@
       legacyPackages = squeezelite.legacyPackages.${hostSystem};
       nixpkgs = legacyPackages.nixpkgs.default;
     in {
+      alac = nixpkgs.alac;
       squeezelite = nixpkgs.squeezelite;
       squeezelite-pulse = nixpkgs.squeezelite-pulse;
     });
