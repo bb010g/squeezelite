@@ -1,6 +1,8 @@
 .vscode/
 *.o
-squeezelite
-squeezelite-pulse
-tools/alsacap
-tools/find_servers
+/squeezelite
+/squeezelite-pulse
+/tools/alsacap
+/tools/find_servers
+# Nix
+/output
